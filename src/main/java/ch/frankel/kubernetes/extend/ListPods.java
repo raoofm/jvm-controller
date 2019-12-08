@@ -1,6 +1,7 @@
 package ch.frankel.kubernetes.extend;
 
 import io.kubernetes.client.openapi.ApiClient;
+import io.kubernetes.client.openapi.ApiException;
 import io.kubernetes.client.openapi.Configuration;
 import io.kubernetes.client.openapi.apis.CoreV1Api;
 import io.kubernetes.client.openapi.models.V1PodList;
@@ -13,9 +14,16 @@ public class ListPods {
     private static final Logger LOGGER = LoggerFactory.getLogger(ListPods.class);
 
     public static void main(String[] args) throws Exception {
-        LOGGER.info("*** JVM Operator v1.1 ***");
+        LOGGER.info("*** JVM Operator v1.2 ***");
         ApiClient client = Config.defaultClient();
         Configuration.setDefaultApiClient(client);
+        while (true) {
+            print();
+            Thread.sleep(1000);
+        }
+    }
+
+    private static void print() throws ApiException {
         CoreV1Api core = new CoreV1Api();
         V1PodList pods = core.listPodForAllNamespaces(null, null, null, null, null, null, null, null, null);
         pods.getItems()
